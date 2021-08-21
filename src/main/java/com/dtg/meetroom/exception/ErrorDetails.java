@@ -1,18 +1,21 @@
 package com.dtg.meetroom.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@Getter
 public class ErrorDetails {
-    private Date timestamp;
+    private LocalDateTime timestamp;
     private String message;
     private String details;
+
+    public ErrorDetails(LocalDateTime timestamp, String message, String details) {
+        this.timestamp = timestamp;
+        this.message = message;
+        this.details = details;
+    }
 
 }

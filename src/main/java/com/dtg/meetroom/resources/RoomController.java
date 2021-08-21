@@ -39,7 +39,7 @@ public class RoomController  {
     }
 
     @GetMapping("/rooms/{id}")
-    public ResponseEntity<Room> getRoomById(@PathVariable(value = "id") Long roomId) throws ResourceNotFoundException {
+    public ResponseEntity<Room> getRoomById(@PathVariable(value = "id") Integer roomId) throws ResourceNotFoundException {
         Room room = findById(roomId);
         return ResponseEntity.ok().body(room);
     }
@@ -50,15 +50,15 @@ public class RoomController  {
     }
 
     @PutMapping("/rooms/{id}")
-    public ResponseEntity<Room> updateRoom(@Valid @RequestBody Room room, @PathVariable("id") Long roomId) throws ResourceNotFoundException {
-        Room roomFinded = findById(roomId);
-        roomFinded = roomMapper.toModel(room);
+    public ResponseEntity<Room> updateRoom(@Valid @RequestBody Room room, @PathVariable("id") Integer roomId) throws ResourceNotFoundException {
+        findById(roomId);
+        Room roomFinded = roomMapper.toModel(room);
         roomFinded.setId(roomId);
         return ResponseEntity.ok().body(roomRepository.save(roomFinded)); 
     }
 
     @DeleteMapping("/rooms/{id}")
-    public Map<String, Boolean> deleteRoom(@PathVariable(value = "id") Long roomId) throws ResourceNotFoundException {
+    public Map<String, Boolean> deleteRoom(@PathVariable(value = "id") Integer roomId) throws ResourceNotFoundException {
         Room room = findById(roomId);
         roomRepository.delete(room);
         Map<String, Boolean> response = new HashMap<>();
@@ -66,7 +66,7 @@ public class RoomController  {
         return response;
     }
 
-    private Room findById(Long id) throws ResourceNotFoundException {
+    private Room findById(Integer id) throws ResourceNotFoundException {
         return roomRepository.findById(id)
             .orElseThrow(()-> new ResourceNotFoundException("Room not found:: " + id));
     }
